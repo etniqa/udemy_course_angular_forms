@@ -1,65 +1,74 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MyValidators} from './my-validators';
-
-export interface Post {
-  title: string;
-  text: string;
-}
+import {Component, Injectable, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {catchError, delay} from 'rxjs/operators';
+import {ToDo, TodosService} from './services/todos.service';
+import {throwError} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements OnInit {
-  form: FormGroup;
-  addressGroup: FormGroup;
-  cityControl = new FormControl('', [Validators.required]);
-  cityMap;
+  todos: ToDo[] = [];
+  newToDoTitle = '';
+  loading = false;
+  errorText = '';
+  constructor(private todosService: TodosService) {}
 
   ngOnInit(): void {
-    this.addressGroup = new FormGroup({
-      country: new FormControl('ua'),
-      city: this.cityControl
-    });
-
-    this.form = new FormGroup({
-      email: new FormControl('', [
-        Validators.email,
-        Validators.required,
-        MyValidators.restrictedEmails
-      ], [MyValidators.uniqueEmail]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(6)
-      ]),
-      addressGroup: this.addressGroup,
-      skills: new FormArray([])
-    });
-
-    this.cityMap = {
-      ua: 'Kyiv',
-      ru: 'Moscow',
-      by: 'Minsk'
-    };
-
-    this.setCapital();
+    this.fetchToDos();
   }
 
-  setCapital() {
-    this.addressGroup.patchValue({
-      city: this.cityMap[this.addressGroup.get('country').value]
-    });
+  addToDo() {
+    // validation
+    if (!this.newToDoTitle.trim()) {
+      return;
+    } else {
+      this.loading = true;
+      this.todosService.addToDo({
+        completed: false,
+        title: this.newToDoTitle
+      })
+        .subscribe(resolve => { // resolve here is object which save on server (with generated id by server)
+          const toDoFromServer = resolve as ToDo;
+          this.todos.push(toDoFromServer);
+          this.newToDoTitle = '';
+          this.loading = false;
+        },
+          error => this.errorText = error.message);
+    }
   }
 
-  submit() {
-     console.log('Form submitted ',  this.form);
-     this.form.reset();
+  fetchToDos() { // getAll
+    this.loading = true;
+    // for start working that stream you need to subscribe on this stream
+    this.todosService.fetchTodos()
+      .subscribe(response => { // json is in response
+        this.todos = response;
+        this.loading = false;
+      },
+        error => this.errorText = error.message);
   }
 
-  addSkill() {
-    const skillControl = new FormControl('', Validators.required);
-    (this.form.get('skills') as FormArray).push(skillControl);
+  removeToDo(id: number) {
+    this.loading = true;
+    this.todosService.removeToDo(id)
+      .subscribe(() => {
+        this.todos = this.todos.filter(todo => todo.id !== id);
+        this.loading = false;
+      },
+        error => this.errorText = error.message);
+  }
+
+  completeTodo(id: number) {
+    this.loading = true;
+    this.todosService.completeTodo(id)
+      .subscribe(completeTodo => {
+        this.todos.find(t => t.id === completeTodo.id).completed = true;
+        this.loading = false;
+      },
+        error => this.errorText = error.message);
   }
 }
