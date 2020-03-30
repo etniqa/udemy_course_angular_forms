@@ -1,41 +1,36 @@
-<div class="container">
-  <h1>Angular HttpClient</h1>
-
-  <div class="card">
-    <div class="form-control">
-      <input type="text" placeholder="Name" [(ngModel)]="this.newToDoTitle">
-    </div>
-    <button class="btn" (click)="addToDo()">Добавить</button>
-    <button class="btn" (click)="fetchToDos()">Загрузить</button>
-  </div>
-
-  <hr>
-
-  <div *ngIf="!errorText; else errorTemplate">
-    <div *ngIf="!this.loading; else loadingTemplate">
-      <div *ngIf="this.todos.length; else emptyTodos">
-        <div class="card" *ngFor="let toDo of this.todos; let ind = index;">
-          <p>
-            <span [class.completed]="toDo.completed">{{ind + 1}}. {{toDo.title}}</span>
-            <span>
-              <button class="btn btn-danger" (click)="removeToDo(toDo.id)">Удалить</button>
-              <button [disabled]="toDo.completed" (click)="this.completeTodo(toDo.id)" class="btn">Завершить</button>
-            </span>
-          </p>
-        </div>
+<nav class="navbar">
+  <h1>
+    <a href="#">Angular Routing</a>
+  </h1>
+  <ul>
+<!--    routerLinkActive="active" (add class active if we`re on page from this routerLink)
+(add class if we are on page which link to this button)-->
+<!--    [routerLinkActiveOptions]="{exact: true} (we say, that path must be exactly the same для того щоб add class .active)-->
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <!-- routerLink instead of href - for making single-page app (without reloading)-->
+      <a routerLink="/">Home</a>
+    </li>
+    <li routerLinkActive="active"><a [routerLink]="['/posts']">Posts</a></li>
+    <li routerLinkActive="active"><a [routerLink]="['/about']">About</a></li>
+    <li><button class="btn" (click)="loginClick()">Login</button></li>
+    <li><button class="btn" (click)="logoutClick()">Logout</button></li>
+    <li>
+      <div
+        class="btn"
+        [ngStyle]="{backgroundColor: this.status ? 'green' : 'red'}"
+      >
+        {{this.status}}
       </div>
-    </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="card">
+<!--    <app-home></app-home> This is a static block-->
+  <router-outlet></router-outlet>   <!--This is dynamic: when angular see coincidence with route,
+                                         it automatically download the appropriate .component.html-->
   </div>
 </div>
-
-<ng-template #loadingTemplate>
-  <p>Loading...</p>
-</ng-template>
-<ng-template #emptyTodos>
-  <p>This array is empty</p>
-</ng-template>
-<ng-template #errorTemplate>
-  <p class="error">Error!!!</p>
-</ng-template>
 
 
