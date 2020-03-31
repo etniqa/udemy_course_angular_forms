@@ -2,6 +2,8 @@
   <h1>Angular Modules</h1>
 
   <ul>
+<!--    routerLinkActive="active" === add class .active if we are on page, which open this button-->
+<!--    [routerLinkActiveOptions]="{exact: true}" === coincidence of routes must be exact the same-->
     <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/">Home</a></li>
     <li routerLinkActive="active"><a routerLink="/about">About</a></li>
   </ul>

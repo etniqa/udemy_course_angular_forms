@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import {PageNamePipe} from '../page-name.pipe';
 import {ColorDirective} from '../color.directive';
 
-// this is module, but isn`t a component
+// this is module, but only with essence, which in common using
 @NgModule({
   declarations: [
-    PageNamePipe,
-    ColorDirective
+    PageNamePipe, // pipe
+    ColorDirective  // directive
   ],
   imports: [
-    CommonModule
+    CommonModule  // instead of BrowserModule (ngStyle, *ngFor)
   ],
-  exports: [    // show to other that this module declare these components (in case of NOT-COMPONENT module)
+  exports: [    // show to other that this module declare these components
     PageNamePipe,
     ColorDirective
   ],
