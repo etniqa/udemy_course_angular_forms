@@ -1,35 +1,17 @@
 <nav class="navbar">
-  <h1>
-    <a href="#">Angular Routing</a>
-  </h1>
+  <h1>Angular Modules</h1>
+
   <ul>
-<!--    routerLinkActive="active" (add class active if we`re on page from this routerLink)
-(add class if we are on page which link to this button)-->
-<!--    [routerLinkActiveOptions]="{exact: true} (we say, that path must be exactly the same для того щоб add class .active)-->
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-      <!-- routerLink instead of href - for making single-page app (without reloading)-->
-      <a routerLink="/">Home</a>
-    </li>
-    <li routerLinkActive="active"><a [routerLink]="['/posts']">Posts</a></li>
-    <li routerLinkActive="active"><a [routerLink]="['/about']">About</a></li>
-    <li><button class="btn" (click)="loginClick()">Login</button></li>
-    <li><button class="btn" (click)="logoutClick()">Logout</button></li>
-    <li>
-      <div
-        class="btn"
-        [ngStyle]="{backgroundColor: this.status ? 'green' : 'red'}"
-      >
-        {{this.status}}
-      </div>
-    </li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/">Home</a></li>
+    <li routerLinkActive="active"><a routerLink="/about">About</a></li>
   </ul>
 </nav>
 
 <div class="container">
   <div class="card">
-<!--    <app-home></app-home> This is a static block-->
-  <router-outlet></router-outlet>   <!--This is dynamic: when angular see coincidence with route,
-                                         it automatically download the appropriate .component.html-->
+
+    <router-outlet></router-outlet>
+
   </div>
 </div>
 

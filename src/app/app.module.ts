@@ -3,28 +3,28 @@ import {NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {FormsModule} from '@angular/forms';
-import { AboutComponent } from './about/about.component';
-import { AboutExtraComponent } from './about-extra/about-extra.component';
-import { HomeComponent } from './home/home.component';
-import { PostComponent } from './post/post.component';
-import { PostsComponent } from './posts/posts.component';
+import {HomePageComponent} from './home-page/home-page.component';
 import {AppRoutingModule} from './app-routing.module';
-import { ErrorPageComponent } from './error-page/error-page.component';
+import {AboutPageModule} from './about-page/about-page/about-page.module';
+import {SharedModule} from './shared/shared/shared.module';
+import { ModalStaticComponent } from './home-page/modal-static/modal-static.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
-  declarations: [
+  declarations: [ // here I declare COMPONENTS which I will use
     AppComponent,
-    AboutComponent,
-    AboutExtraComponent,
-    HomeComponent,
-    PostComponent,
-    PostsComponent,
-    ErrorPageComponent
+    HomePageComponent,
+    ModalStaticComponent,
   ],
   imports: [
+    SharedModule, // with my common essence (pipes, services, directives)
+    AboutPageModule,  // my other modules
+
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

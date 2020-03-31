@@ -4,9 +4,9 @@ import {Directive, HostBinding, OnInit} from '@angular/core'
   selector: '[appColor]'
 })
 export class ColorDirective implements OnInit {
-  @HostBinding('style.color') color: string
+  @HostBinding('style.color') color: string;
 
   ngOnInit(): void {
-    this.color = '#aaa'
+    this.color = '#aaa';
   }
 }
