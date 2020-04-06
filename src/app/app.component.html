@@ -1,0 +1,21 @@
+<button (click)="this.boxState = this.boxState === 'end' ? 'start' : 'end'">Animate</button>
+<button (click)="boxState = 'special'">set special state</button>
+<button (click)="visible = !visible">toogle</button>
+<hr>
+<div class="wrap">
+  <!--  need to link our trigger with string in component.ts 'cause trigger has states, which are strings-->
+  <!--  [@box] === bind with box trigger -->
+<!--  @(box.start)="animationStarted($event)" === calling this.animationStarted($event) when animation start-->
+  <div
+    *ngIf="visible"
+    class="box"
+    [@box]="boxState"
+    (@box.start)="animationStarted($event)"
+    (@box.done)="animationEnd($event)"
+  >
+    <h4>{{this.boxState | uppercase}}</h4>
+  </div>
+</div>
+<br>
+<hr>
+<app-animate></app-animate>
