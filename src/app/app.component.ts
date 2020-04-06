@@ -1,5 +1,4 @@
-import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {Meta} from '@angular/platform-browser';
+import {Component} from '@angular/core';
 
 
 @Component({
@@ -9,11 +8,5 @@ import {Meta} from '@angular/platform-browser';
 })
 
 export class AppComponent {
-  constructor(private meta: Meta) {
-    // meta is for for seo
-    this.meta.addTags([
-      {name: 'keywords', content: 'angular,google,appcomponent'},
-      {name: 'description', content: 'this is app component'}
-    ]);
-  }
+
 }
